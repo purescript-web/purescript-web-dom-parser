@@ -1,16 +1,15 @@
-# purescript-dom-parser
+# purescript-web-dom-parser
 
-[`DOMParser`](https://developer.mozilla.org/docs/Web/API/DOMParser) wrapper for integration with PureScript DOM.
+[`DOMParser`](https://developer.mozilla.org/docs/Web/API/DOMParser) wrapper for integration with PureScript DOM. This is a fork of [purescript-dom-parser](https://github.com/toastal/purescript-dom-parser), using `Effect`.
 
 
-[![Latest release](http://img.shields.io/github/release/toastal/purescript-domparser.svg)](https://github.com/toastal/purescript-domparser/releases)
+[![Latest release](http://img.shields.io/github/release/purescript-web/purescript-web-dom-parser.svg)](https://github.com/purescript-web/purescript-web-dom-parser/releases)
 
 
 ## Installation
 
 ```bash
-bower install purescript-domparser
+bower install purescript-web-dom-parser
 ```
 
-Module documentation is [published on Pursuit](https://pursuit.purescript.org/packages/purescript-dom-parser).
-
+Module documentation is [published on Pursuit](https://pursuit.purescript.org/packages/purescript-web-dom-parser).

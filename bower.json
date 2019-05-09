@@ -1,6 +1,6 @@
 {
-  "name": "purescript-dom-parser",
-  "homepage": "https://github.com/toastal/purescript-dom-parser",
+  "name": "purescript-web-dom-parser",
+  "homepage": "https://github.com/purescript-web/purescript-web-dom-parser",
   "description": "DOMParser wrapper for integrated with PureScript DOM",
   "license": "MIT",
   "keywords": [
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/toastal/purescript-dom-parser.git"
+    "url": "git://github.com/purescript-web/purescript-web-dom-parser.git"
   },
   "ignore": [
     "**/.*",

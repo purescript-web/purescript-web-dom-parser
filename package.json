@@ -1,5 +1,5 @@
 {
-  "name": "purescript-dom-parser",
+  "name": "purescript-web-dom-parser",
   "author": "toastal (https://keybase.io/toastal)",
   "private": false,
   "scripts": {
