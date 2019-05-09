@@ -13,8 +13,9 @@
 
 package-lock.json
 yarn.lock
+/dist/
 /node_modules/
-/output/
+/output//
 /tmp/
 
 .DS_Store
