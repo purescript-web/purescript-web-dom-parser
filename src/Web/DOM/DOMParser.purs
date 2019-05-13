@@ -5,12 +5,18 @@ module Web.DOM.DOMParser
   , parseHTMLFromString
   , parseSVGFromString
   , parseXMLFromString
+  , _getParserError
   ) where
 
---import Prelude
+import Prelude (($), bind, map, pure)
 
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
-import Web.DOM.Document (Document)
+import Web.DOM.Document (Document, getElementsByTagName)
+import Web.DOM.Element (toNode)
+import Web.DOM.HTMLCollection (item)
+import Web.DOM.Node (nodeValue)
+
 
 foreign import data DOMParser ∷ Type
 
@@ -37,3 +43,11 @@ parseSVGFromString s d =
 parseXMLFromString ∷ String → DOMParser → Effect Document
 parseXMLFromString s d =
   parseFromString "application/xml" s d
+
+_getParserError :: Document -> Effect (Maybe String)
+_getParserError doc = do
+  pes <- getElementsByTagName "parsererror" doc
+  peEleMay <- item 0 pes
+  case map (\x -> nodeValue $ toNode x) peEleMay of
+    Nothing -> pure Nothing
+    Just efStr -> map (Just) efStr
