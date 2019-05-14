@@ -8,15 +8,16 @@ module Web.DOM.DOMParser
   , _getParserError
   ) where
 
-import Prelude (($), bind, map, pure)
+import Prelude (($), (<<<), (>>=), bind, join, map, pure)
 
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe)
+import Data.Traversable (sequence)
 import Effect (Effect)
 import Web.DOM.Document (Document, getElementsByTagName)
 import Web.DOM.Element (toNode)
 import Web.DOM.HTMLCollection (item)
-import Web.DOM.Node (nodeValue)
-
+import Web.DOM.Node (childNodes, nodeValue)
+import Web.DOM.NodeList as NL
 
 foreign import data DOMParser ∷ Type
 
@@ -48,6 +49,8 @@ _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
   pes <- getElementsByTagName "parsererror" doc
   peEleMay <- item 0 pes
-  case map (\x -> nodeValue $ toNode x) peEleMay of
-    Nothing -> pure Nothing
-    Just efStr -> map (Just) efStr
+  peEleChildrenMay <- (pure $ map (childNodes <<< toNode) peEleMay) >>= sequence
+  peEleFstNodeMayMay <- (pure $ map (NL.item 0) peEleChildrenMay) >>= sequence
+  sequence $ map (\x -> nodeValue x) (join peEleFstNodeMayMay)
+
+-- ffNs = "http://www.mozilla.org/newlayout/xml/parsererror.xml"

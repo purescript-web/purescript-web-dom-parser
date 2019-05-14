@@ -2,6 +2,7 @@ module Test.Main where
 
 import Prelude
 
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
 import Test.Data as TD
@@ -23,6 +24,9 @@ main = do
   log "test0"
   garbageOut <- parseGarbage domParser
   log "test1"
-  parseErrMay <- _getParserError garbageOut
-  --log $ show $ parseErrMay
+  parseErrMay <-_getParserError garbageOut
+  case parseErrMay of
+    Nothing -> log "no parse error found for garbageOut"
+    Just er -> log er
+  log "test 2"
   log "TODO: You should add some tests."
