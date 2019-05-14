@@ -8,16 +8,21 @@ module Web.DOM.DOMParser
   , _getParserError
   ) where
 
-import Prelude (($), (<<<), (>>=), bind, join, map, pure)
+import Prelude (($), (<<<), (>>=), bind, join, map, pure, unit)
 
-import Data.Maybe (Maybe)
+import Data.Array (head)
+import Data.Maybe (Maybe(..), isJust)
+import Data.Foldable (find)
 import Data.Traversable (sequence)
 import Effect (Effect)
-import Web.DOM.Document (Document, getElementsByTagName)
-import Web.DOM.Element (toNode)
-import Web.DOM.HTMLCollection (item)
+import Web.DOM.Document (Document, getElementsByTagNameNS)
+import Web.DOM.Element (Element, toNode)
+import Web.DOM.HTMLCollection (toArray)
 import Web.DOM.Node (childNodes, nodeValue)
-import Web.DOM.NodeList as NL
+import Web.DOM.NodeList (item)
+
+import Unsafe.Coerce (unsafeCoerce)
+import Prim.TypeError (QuoteLabel, class Warn)
 
 foreign import data DOMParser ∷ Type
 
@@ -47,10 +52,27 @@ parseXMLFromString s d =
 
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
-  pes <- getElementsByTagName "parsererror" doc
-  peEleMay <- item 0 pes
+  peSearch <- sequence $ map (\ns -> getPeByNS ns) peNSes
+  peEleMay <- pure $ join $ find isJust peSearch
+  -- pes <- getElementsByTagName "parsererror" doc
+  -- peEleMay <- item 0 pes
   peEleChildrenMay <- (pure $ map (childNodes <<< toNode) peEleMay) >>= sequence
-  peEleFstNodeMayMay <- (pure $ map (NL.item 0) peEleChildrenMay) >>= sequence
+  peEleFstNodeMayMay <- (pure $ map (item 0) peEleChildrenMay) >>= sequence
+  -- FIXME: nodeValue should return Effect (Maybe String)
+  -- TODO: once that is fixed, can check, and return innerHTML of peEleMay
+  -- TODO (implemented here as part of the DOMParser spec) in the Nothing case
   sequence $ map (\x -> nodeValue x) (join peEleFstNodeMayMay)
+    where
+      getPeByNS :: String -> Effect (Maybe Element)
+      getPeByNS ns = do
+        peCol <- getElementsByTagNameNS (Just ns) "parsererror" doc
+        peEleArr <- toArray peCol
+        pure $ head peEleArr
 
--- ffNs = "http://www.mozilla.org/newlayout/xml/parsererror.xml"
+      peNSes = [
+        "http://www.w3.org/1999/xhtml"
+      , "http://www.mozilla.org/newlayout/xml/parsererror.xml"
+      ]
+
+undefined :: forall a. Warn (QuoteLabel "undefined in use") => a
+undefined = unsafeCoerce unit
