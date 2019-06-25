@@ -27,6 +27,6 @@ main = do
   parseErrMay <-_getParserError garbageOut
   case parseErrMay of
     Nothing -> log "no parse error found for garbageOut"
-    Just er -> log er
+    Just er -> log $ "Error is:" <> er
   log "test 2"
   log "TODO: You should add some tests."
