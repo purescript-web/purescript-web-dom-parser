@@ -8,17 +8,19 @@ module Web.DOM.DOMParser
   , _getParserError
   ) where
 
-import Prelude (($), (<<<), (>>=), bind, join, map, pure)
+import Prelude (($), (<<<), (>>=), bind, discard, join, map, pure)
 
-import Data.Array (head)
+import Data.Array (catMaybes, head)
 import Data.Maybe (Maybe(..), isJust)
 import Data.Foldable (find)
 import Data.Traversable (sequence)
 import Effect (Effect)
-import Web.DOM.Document (Document, getElementsByTagNameNS)
-import Web.DOM.Element (Element, toNode)
-import Web.DOM.HTMLCollection (toArray)
-import Web.DOM.Node (Node, childNodes, nodeValue)
+import Effect.Console (log, logShow) -- FIXME: DEBUGGING
+import Global.Unsafe (unsafeStringify) -- FIXME: DEBUGGING
+import Web.DOM.Document (Document, getElementsByTagName, getElementsByTagNameNS)
+import Web.DOM.Element (Element, tagName, toNode)
+import Web.DOM.HTMLCollection (HTMLCollection, toArray)
+import Web.DOM.Node (Node, childNodes, nodeValue, textContent)
 import Web.DOM.NodeList (item)
 
 -- import Prim.TypeError (QuoteLabel, class Warn)
@@ -49,40 +51,15 @@ parseXMLFromString ∷ String -> DOMParser -> Effect Document
 parseXMLFromString s d =
   parseFromString "application/xml" s d
 
+
+
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
-  peSearch <- sequence $ map (\ns -> getPeByNS ns) peNSes
-  peEleMay <- pure $ join $ find isJust peSearch
-
-  peEleChildrenMay <- (pure $ map (childNodes <<< toNode) peEleMay) >>= sequence
-  peEleFstNodeMayMay <- (pure $ map (item 0) peEleChildrenMay) >>= sequence
-  sequence $ map (\x -> nodeValOrPeInner peEleMay x) (join peEleFstNodeMayMay)
+  peElems :: Array Element <- join $ map toArray $ getElementsByTagName "parsererror" doc
+  peEleMay :: Maybe Element <- pure $ head $ peElems
+  getText peEleMay
     where
-      getPeByNS :: String -> Effect (Maybe Element)
-      getPeByNS ns = do
-        peCol <- getElementsByTagNameNS (Just ns) "parsererror" doc
-        peEleArr <- toArray peCol
-        pure $ head peEleArr
-      nodeValOrPeInner :: Maybe Element -> Node -> Effect String
-      nodeValOrPeInner peOuterEle peFst = do
-        nv <- nodeValue peFst
-        nvOuter <- case map nodeValue peOuter of
-          Nothing -> pure Nothing
-          Just nvO -> nvO
-        pure case nv of
-          Nothing -> case nvOuter of
-            Nothing -> ""
-            Just erStr -> erStr
-          Just erStr -> erStr
-        where
-          peOuter = map toNode peOuterEle
-
-      peNSes = [
-        "http://www.w3.org/1999/xhtml"
-      , "http://www.mozilla.org/newlayout/xml/parsererror.xml"
-      ]
-
-{-
-undefined :: forall a. Warn (QuoteLabel "undefined in use") => a
-undefined = unsafeCoerce unit
--}
+      getText :: Maybe Element -> Effect (Maybe String)
+      getText elMay = case map toNode elMay of
+        Nothing -> pure $ Nothing
+        Just nd -> map Just $ textContent nd

@@ -2,5 +2,5 @@
 
 npm run build && \
   pulp build --main "Test.Main" --src-path "src" -I "test" \
-       -- --censor-lib --strict && \
+       -- --censor-lib && \
   parcel build --public-url ./ test/index.html
