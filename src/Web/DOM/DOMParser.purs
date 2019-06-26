@@ -8,50 +8,50 @@ module Web.DOM.DOMParser
   , _getParserError
   ) where
 
-import Prelude (($), (<<<), (>>=), bind, discard, join, map, pure)
+import Prelude (($), bind, join, map, pure)
 
-import Data.Array (catMaybes, head)
-import Data.Maybe (Maybe(..), isJust)
-import Data.Foldable (find)
-import Data.Traversable (sequence)
+import Data.Array (head)
+import Data.Either (Either(..))
+import Data.Maybe (Maybe(..))
 import Effect (Effect)
-import Effect.Console (log, logShow) -- FIXME: DEBUGGING
-import Global.Unsafe (unsafeStringify) -- FIXME: DEBUGGING
-import Web.DOM.Document (Document, getElementsByTagName, getElementsByTagNameNS)
-import Web.DOM.Element (Element, tagName, toNode)
-import Web.DOM.HTMLCollection (HTMLCollection, toArray)
-import Web.DOM.Node (Node, childNodes, nodeValue, textContent)
-import Web.DOM.NodeList (item)
-
--- import Prim.TypeError (QuoteLabel, class Warn)
+import Web.DOM.Document (Document, getElementsByTagName)
+import Web.DOM.Element (Element, toNode)
+import Web.DOM.HTMLCollection (toArray)
+import Web.DOM.Node (textContent)
 
 foreign import data DOMParser ∷ Type
 
 --| Create a new `DOMParser`
 foreign import makeDOMParser ∷ Effect DOMParser
 
---| Parse a string with the first argumet being a string for a doctype
+--| Parse a string with the first argumet being a string for a doctype.
+--| Does not capture errors; consider using other wrapper functions,
+--| e.g. parseXMLFromString.
 foreign import parseFromString ∷ String -> String -> DOMParser -> Effect Document
 
 --| Convience function to parse HTML from a string, partially applying
 --| `parseFromString` with "text/html"
-parseHTMLFromString ∷ String -> DOMParser -> Effect Document
-parseHTMLFromString s d =
-  parseFromString "text/html" s d
+parseHTMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
+parseHTMLFromString s d = do
+  doc <- parseFromString "text/html" s d
+  errMay <- _getParserError doc
+  pure $ returnIfNothing errMay doc
 
 --| Convience function to parse SVG from a string, partially applying
 --| `parseFromString` with "image/svg+xml"
-parseSVGFromString ∷ String -> DOMParser -> Effect Document
-parseSVGFromString s d =
-  parseFromString "image/svg+xml" s d
+parseSVGFromString ∷ String -> DOMParser -> Effect (Either String Document)
+parseSVGFromString s d = do
+  doc <- parseFromString "image/svg+xml" s d
+  errMay <- _getParserError doc
+  pure $ returnIfNothing errMay doc
 
 --| Convience function to parse XML from a string, partially applying
 --| `parseFromString` with "application/xml"
-parseXMLFromString ∷ String -> DOMParser -> Effect Document
-parseXMLFromString s d =
-  parseFromString "application/xml" s d
-
-
+parseXMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
+parseXMLFromString s d = do
+  doc <- parseFromString "application/xml" s d
+  errMay <- _getParserError doc
+  pure $ returnIfNothing errMay doc
 
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
@@ -63,3 +63,8 @@ _getParserError doc = do
       getText elMay = case map toNode elMay of
         Nothing -> pure $ Nothing
         Just nd -> map Just $ textContent nd
+
+returnIfNothing :: forall a b. Maybe a -> b -> Either a b
+returnIfNothing errMay val = case errMay of
+  Nothing -> Right val
+  Just er -> Left er
