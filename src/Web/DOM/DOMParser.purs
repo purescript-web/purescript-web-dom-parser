@@ -53,6 +53,8 @@ parseXMLFromString s d = do
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
+--| Utility method for extracting Dom Parser errors from document;
+--| should only need to be used if calling `parseFromString` directly.
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
   peElems :: Array Element <- join $ map toArray $ getElementsByTagName "parsererror" doc
@@ -64,6 +66,9 @@ _getParserError doc = do
         Nothing -> pure $ Nothing
         Just nd -> map Just $ textContent nd
 
+--| Like [Data.Either.note](https://pursuit.purescript.org/packages/purescript-either/docs/Data.Either#v:note),
+--| but with the logic reversed. Used internally for converting the
+--| result of `_getParserError` to an `Either`.
 returnIfNothing :: forall a b. Maybe a -> b -> Either a b
 returnIfNothing errMay val = case errMay of
   Nothing -> Right val
