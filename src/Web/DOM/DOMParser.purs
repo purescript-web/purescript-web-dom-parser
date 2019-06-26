@@ -26,7 +26,7 @@ foreign import makeDOMParser ∷ Effect DOMParser
 
 --| Parse a string with the first argumet being a string for a doctype.
 --| Does not capture errors; consider using other wrapper functions,
---| e.g. parseXMLFromString.
+--| e.g. `parseXMLFromString`.
 foreign import parseFromString ∷ String -> String -> DOMParser -> Effect Document
 
 --| Convience function to parse HTML from a string, partially applying
