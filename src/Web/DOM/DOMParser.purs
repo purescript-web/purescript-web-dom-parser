@@ -21,40 +21,40 @@ import Web.DOM.Node (textContent)
 
 foreign import data DOMParser ∷ Type
 
---| Create a new `DOMParser`
+-- | Create a new `DOMParser`
 foreign import makeDOMParser ∷ Effect DOMParser
 
---| Parse a string with the first argumet being a string for a doctype.
---| Does not capture errors; consider using other wrapper functions,
---| e.g. `parseXMLFromString`.
+-- | Parse a string with the first argumet being a string for a doctype.
+-- | Does not capture errors; consider using other wrapper functions,
+-- | e.g. `parseXMLFromString`.
 foreign import parseFromString ∷ String -> String -> DOMParser -> Effect Document
 
---| Convience function to parse HTML from a string, partially applying
---| `parseFromString` with "text/html"
+-- | Convience function to parse HTML from a string, partially applying
+-- | `parseFromString` with "text/html"
 parseHTMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseHTMLFromString s d = do
   doc <- parseFromString "text/html" s d
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
---| Convience function to parse SVG from a string, partially applying
---| `parseFromString` with "image/svg+xml"
+-- | Convience function to parse SVG from a string, partially applying
+-- | `parseFromString` with "image/svg+xml"
 parseSVGFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseSVGFromString s d = do
   doc <- parseFromString "image/svg+xml" s d
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
---| Convience function to parse XML from a string, partially applying
---| `parseFromString` with "application/xml"
+-- | Convience function to parse XML from a string, partially applying
+-- | `parseFromString` with "application/xml"
 parseXMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseXMLFromString s d = do
   doc <- parseFromString "application/xml" s d
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
---| Utility method for extracting Dom Parser errors from document;
---| should only need to be used if calling `parseFromString` directly.
+-- | Utility method for extracting Dom Parser errors from document;
+-- | should only need to be used if calling `parseFromString` directly.
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
   peElems :: Array Element <- join $ map toArray $ getElementsByTagName "parsererror" doc
@@ -66,9 +66,9 @@ _getParserError doc = do
         Nothing -> pure $ Nothing
         Just nd -> map Just $ textContent nd
 
---| Like [Data.Either.note](https://pursuit.purescript.org/packages/purescript-either/docs/Data.Either#v:note),
---| but with the logic reversed. Used internally for converting the
---| result of `_getParserError` to an `Either`.
+-- | Like [Data.Either.note](https://pursuit.purescript.org/packages/purescript-either/docs/Data.Either#v:note),
+-- | but with the logic reversed. Used internally for converting the
+-- | result of `_getParserError` to an `Either`.
 returnIfNothing :: forall a b. Maybe a -> b -> Either a b
 returnIfNothing errMay val = case errMay of
   Nothing -> Right val

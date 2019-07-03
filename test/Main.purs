@@ -2,15 +2,18 @@ module Test.Main where
 
 import Prelude
 
-import Data.Either (Either, isLeft, isRight)
+import Data.Either (Either, fromRight, isLeft, isRight)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
+import Partial.Unsafe (unsafePartial)
 import Test.Data as TD
 
 import Web.DOM.Document (Document)
-import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString,
-                          parseXMLFromString, _getParserError)
+import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString
+                         , parseXMLFromString, _getParserError)
+import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer
+                             , serializeToString)
 
 parseNoteDocRaw :: DOMParser -> Effect Document
 parseNoteDocRaw = parseFromString "application/xml" TD.noteXml
@@ -43,5 +46,8 @@ main = do
   log $ "is Right? " <> show (isRight shouldBeRight)
   shouldBeLeft <- parseGarbage domParser
   log $ "is Left? " <> show (isLeft shouldBeLeft)
+  xmlSrlzr <- makeXMLSerializer
+  strFromNote <- unsafePartial $ serializeToString (fromRight shouldBeRight) xmlSrlzr
+  log $ "serialization of note is:\n" <> strFromNote
 
   log "TODO: You should add some tests."
