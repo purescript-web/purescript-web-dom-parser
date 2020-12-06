@@ -9,7 +9,7 @@
 ## Installation
 
 ```bash
-bower install purescript-web-dom-parser
+spago install web-dom-parser
 ```
 
 Module documentation is [published on Pursuit](https://pursuit.purescript.org/packages/purescript-web-dom-parser).
