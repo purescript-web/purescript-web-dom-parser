@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/purescript-web/purescript-web-dom-parser.git"
+    "url": "https://github.com/purescript-web/purescript-web-dom-parser.git"
   },
   "ignore": [
     "**/.*",
@@ -27,7 +27,6 @@
   "devDependencies": {
     "purescript-assert": "master",
     "purescript-console": "master",
-    "purescript-debug": "master",
     "purescript-psci-support": "master"
   }
 }
