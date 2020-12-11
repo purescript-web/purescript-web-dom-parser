@@ -21,7 +21,7 @@
   "dependencies": {
     "purescript-prelude": "master",
     "purescript-effect": "master",
-    "purescript-web-dom": "3 - 4",
+    "purescript-web-dom": "master",
     "purescript-partial": "master"
   },
   "devDependencies": {
