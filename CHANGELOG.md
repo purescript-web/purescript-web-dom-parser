@@ -16,3 +16,10 @@ Other improvements:
 
 Raised upper bound for `purescript-web-dom`
 
+## [v4.0.0](https://github.com/toastal/purescript-web-dom-parser/releases/tag/v4.0.0) - 2019-04-10
+
+## [v3.0.0](https://github.com/toastal/purescript-web-dom-parser/releases/tag/v3.0.0) - 2019-04-08
+
+## [v2.0.1](https://github.com/toastal/purescript-web-dom-parser/releases/tag/v2.0.1) - 2018-07-29
+
+## [v1.0.0](https://github.com/toastal/purescript-web-dom-parser/releases/tag/v1.0.0) - 2017-12-22
