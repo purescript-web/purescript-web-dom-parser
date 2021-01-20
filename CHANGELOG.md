@@ -5,16 +5,19 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
+- Added support for PureScript 0.14 and dropped support for all previous versions (#8)
 
 New features:
 
 Bugfixes:
 
 Other improvements:
+- Migrated CI to GitHub Actions and updated installation instructions to use Spago (#7)
+- Added a CHANGELOG.md file and pull request template (#9, #10)
 
 ## [v6.1.1](https://github.com/purescript-web/purescript-web-dom-parser/releases/tag/v6.1.1) - 2019-08-18
 
-Raised upper bound for `purescript-web-dom`
+- Raised upper bound for `purescript-web-dom`
 
 ## [v6.1.0](https://github.com/purescript-web/purescript-web-dom-parser/releases/tag/v6.1.0) - 2019-07-03
 
