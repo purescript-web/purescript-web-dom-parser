@@ -1,14 +1,14 @@
 /* Web.DOM.XMLSerializer */
 "use strict";
 
-exports.makeXMLSerializer = function () {
+export function makeXMLSerializer() {
   return new XMLSerializer();
-};
+}
 
-exports.serializeToString =  function (doc) {
+export function serializeToString(doc) {
   return function (xmlSerializer) {
     return function () { // Effect thunk
       return xmlSerializer.serializeToString(doc);
     };
   };
-};
+}
