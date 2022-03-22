@@ -1,6 +1,4 @@
 /* Web.DOM.XMLSerializer */
-"use strict";
-
 export function makeXMLSerializer() {
   return new XMLSerializer();
 }

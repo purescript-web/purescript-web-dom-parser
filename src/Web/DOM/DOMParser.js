@@ -1,6 +1,4 @@
 /* Web.DOM.DOMParser */
-"use strict";
-
 export function makeDOMParser() {
   return new DOMParser();
 }
