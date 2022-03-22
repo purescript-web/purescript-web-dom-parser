@@ -2,7 +2,7 @@ module Test.Main where
 
 import Prelude
 
-import Data.Either (Either, either, fromRight, isLeft, isRight)
+import Data.Either (Either, either)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
@@ -12,8 +12,7 @@ import Test.Data as TD
 import Web.DOM.Document (Document)
 import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString
                          , parseXMLFromString, _getParserError)
-import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer
-                             , serializeToString)
+import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer)
 
 parseNoteDocRaw :: DOMParser -> Effect Document
 parseNoteDocRaw = parseFromString "application/xml" TD.noteXml
