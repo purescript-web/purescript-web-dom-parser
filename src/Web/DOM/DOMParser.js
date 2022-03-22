@@ -1,11 +1,11 @@
 /* Web.DOM.DOMParser */
 "use strict";
 
-exports.makeDOMParser = function () {
+export function makeDOMParser() {
   return new DOMParser();
-};
+}
 
-exports.parseFromString = function (documentType) {
+export function parseFromString(documentType) {
   return function (sourceString) {
     return function (domParser) {
       return function () { // Effect thunk
@@ -13,4 +13,4 @@ exports.parseFromString = function (documentType) {
       };
     };
   };
-};
+}
