@@ -2,18 +2,17 @@ module Test.Main where
 
 import Prelude
 
-import Data.Either (Either, fromRight, isLeft, isRight)
+import Data.Either (Either, either)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Console (log)
-import Partial.Unsafe (unsafePartial)
+import Partial.Unsafe (unsafePartial, unsafeCrashWith)
 import Test.Data as TD
 
 import Web.DOM.Document (Document)
 import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString
                          , parseXMLFromString, _getParserError)
-import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer
-                             , serializeToString)
+import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer)
 
 parseNoteDocRaw :: DOMParser -> Effect Document
 parseNoteDocRaw = parseFromString "application/xml" TD.noteXml
@@ -42,12 +41,10 @@ main = do
     Nothing -> log "no parse error found for garbageOut"
     Just er -> log $ "Error is:" <> er
   log "test 2"
-  shouldBeRight <- parseNoteDoc domParser
-  log $ "is Right? " <> show (isRight shouldBeRight)
-  shouldBeLeft <- parseGarbage domParser
-  log $ "is Left? " <> show (isLeft shouldBeLeft)
+  shouldBeRight <- either (\_ -> unsafeCrashWith "should be right") identity <$> parseNoteDoc domParser
+  either (const unit) (\_ -> unsafeCrashWith "should be left") <$> parseGarbage domParser
   xmlSrlzr <- makeXMLSerializer
-  strFromNote <- unsafePartial $ serializeToString (fromRight shouldBeRight) xmlSrlzr
+  strFromNote <- unsafePartial $ serializeToString shouldBeRight xmlSrlzr
   log $ "serialization of note is:\n" <> strFromNote
 
   log "TODO: You should add some tests."
