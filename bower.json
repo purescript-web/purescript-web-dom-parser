@@ -19,14 +19,14 @@
     "package-lock.json"
   ],
   "dependencies": {
-    "purescript-effect": "master",
-    "purescript-partial": "master",
-    "purescript-prelude": "master",
-    "purescript-web-dom": "master"
+    "purescript-effect": "^4.0.0",
+    "purescript-partial": "^4.0.0",
+    "purescript-prelude": "^6.0.0",
+    "purescript-web-dom": "^6.0.0"
   },
   "devDependencies": {
-    "purescript-assert": "master",
-    "purescript-console": "master",
-    "purescript-psci-support": "master"
+    "purescript-assert": "^6.0.0",
+    "purescript-console": "^6.0.0",
+    "purescript-psci-support": "^6.0.0"
   }
 }
