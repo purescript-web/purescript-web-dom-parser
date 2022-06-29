@@ -29,7 +29,7 @@ foreign import makeDOMParser ∷ Effect DOMParser
 -- | e.g. `parseXMLFromString`.
 foreign import parseFromString ∷ String -> String -> DOMParser -> Effect Document
 
--- | Convience function to parse HTML from a string, partially applying
+-- | Convenience function to parse HTML from a string, partially applying
 -- | `parseFromString` with "text/html"
 parseHTMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseHTMLFromString s d = do
@@ -37,7 +37,7 @@ parseHTMLFromString s d = do
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
--- | Convience function to parse SVG from a string, partially applying
+-- | Convenience function to parse SVG from a string, partially applying
 -- | `parseFromString` with "image/svg+xml"
 parseSVGFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseSVGFromString s d = do
@@ -45,7 +45,7 @@ parseSVGFromString s d = do
   errMay <- _getParserError doc
   pure $ returnIfNothing errMay doc
 
--- | Convience function to parse XML from a string, partially applying
+-- | Convenience function to parse XML from a string, partially applying
 -- | `parseFromString` with "application/xml"
 parseXMLFromString ∷ String -> DOMParser -> Effect (Either String Document)
 parseXMLFromString s d = do
