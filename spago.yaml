@@ -1,0 +1,27 @@
+package:
+  name: web-dom-parser
+  dependencies:
+    - effect
+    - web-dom
+    - prelude
+  test:
+    main: Test.Main
+    dependencies:
+      - console
+workspace:
+  packageSet:
+    registry: 60.7.0
+  extraPackages:
+    web-dom:
+      git: https://github.com/purescript-web/purescript-web-dom.git
+      ref: master
+      dependencies:
+        - effect
+        - enums
+        - maybe
+        - newtype
+        - nullable
+        - prelude
+        - unsafe-coerce
+        - web-events
+

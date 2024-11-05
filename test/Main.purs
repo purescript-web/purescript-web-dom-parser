@@ -10,20 +10,20 @@ import Partial.Unsafe (unsafePartial, unsafeCrashWith)
 import Test.Data as TD
 
 import Web.DOM.Document (Document)
-import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString
-                         , parseXMLFromString, _getParserError)
-import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer)
+import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString, parseXMLFromString, _getParserError)
+import Web.DOM.XMLSerializer (makeXMLSerializer, serializeToString)
 
 parseNoteDocRaw :: DOMParser -> Effect Document
 parseNoteDocRaw = parseFromString "application/xml" TD.noteXml
+
 parseNoteDoc :: DOMParser -> Effect (Either String Document)
 parseNoteDoc = parseXMLFromString TD.noteXml
 
 parseGarbageRaw :: DOMParser -> Effect Document
 parseGarbageRaw = parseFromString "application/xml" "<foo>asdf<bar></foo>"
+
 parseGarbage :: DOMParser -> Effect (Either String Document)
 parseGarbage = parseXMLFromString "<foo>asdf<bar></foo>"
-
 
 main :: Effect Unit
 main = do

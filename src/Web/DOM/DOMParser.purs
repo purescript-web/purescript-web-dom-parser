@@ -16,6 +16,7 @@ import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Web.DOM.Document (Document, getElementsByTagName)
 import Web.DOM.Element (Element, toNode)
+import Web.DOM.ElementName (ElementName(..))
 import Web.DOM.HTMLCollection (toArray)
 import Web.DOM.Node (textContent)
 
@@ -57,7 +58,7 @@ parseXMLFromString s d = do
 -- | should only need to be used if calling `parseFromString` directly.
 _getParserError :: Document -> Effect (Maybe String)
 _getParserError doc = do
-  peElems :: Array Element <- join $ map toArray $ getElementsByTagName "parsererror" doc
+  peElems :: Array Element <- join $ map toArray $ getElementsByTagName (ElementName "parsererror") doc
   peEleMay :: Maybe Element <- pure $ head $ peElems
   getText peEleMay
     where

@@ -1,21 +1,20 @@
 {
   "name": "purescript-web-dom-parser",
+  "description": "DOMParser wrapper for integrated with PureScript DOM",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purescript-web/purescript-web-dom-parser.git"
+  },
+  "keywords": [
+    "purescript"
+  ],
   "author": "toastal (https://keybase.io/toastal)",
-  "private": false,
-  "scripts": {
-    "build": "pulp build -- --censor-lib --strict",
-    "clean": "rimraf output && rimraf .pulp-cache",
-    "test": "echo TODO",
-    "testbrowser": "./scripts/testbrowser",
-    "postinstall": "psc-package install"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purescript-web/purescript-web-dom-parser/issues"
   },
+  "homepage": "https://github.com/purescript-web/purescript-web-dom-parser#readme",
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
-    "pulp": "16.0.0-0",
-    "purescript-psa": "^0.8.2",
-    "rimraf": "^2.6.3"
-  },
-  "dependencies": {
-    "psc-package": "^3.0.1"
+    "jsdom": "^25.0.1"
   }
 }

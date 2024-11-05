@@ -10,6 +10,7 @@
 /.psa-stash
 /.cache
 /.xdg_config_home
+/.spago
 
 package-lock.json
 yarn.lock
