@@ -5,7 +5,8 @@ export function makeXMLSerializer() {
 
 export function serializeToString(doc) {
   return function (xmlSerializer) {
-    return function () { // Effect thunk
+    return function () {
+      // Effect thunk
       return xmlSerializer.serializeToString(doc);
     };
   };

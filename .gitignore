@@ -9,9 +9,10 @@
 /.psa*
 /.psa-stash
 /.cache
+/.parcel-cache/
 /.xdg_config_home
 
-package-lock.json
+/.spago/
 yarn.lock
 /dist/
 /node_modules/

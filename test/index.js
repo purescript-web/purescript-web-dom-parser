@@ -1,2 +1,2 @@
-import Main from "../output/Test.Main/index.js";
-Main.main();
+import { main } from "../output/Test.Main/index.js";
+main();
