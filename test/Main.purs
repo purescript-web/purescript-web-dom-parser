@@ -12,7 +12,7 @@ import Test.Data as TD
 import Web.DOM.Document (Document)
 import Web.DOM.DOMParser (DOMParser, makeDOMParser, parseFromString
                          , parseXMLFromString, _getParserError)
-import Web.DOM.XMLSerializer (XMLSerializer, makeXMLSerializer)
+import Web.DOM.XMLSerializer (makeXMLSerializer, serializeToString)
 
 parseNoteDocRaw :: DOMParser -> Effect Document
 parseNoteDocRaw = parseFromString "application/xml" TD.noteXml
