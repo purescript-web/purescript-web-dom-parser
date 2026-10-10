@@ -3,12 +3,18 @@
   "author": "toastal (https://keybase.io/toastal)",
   "private": false,
   "scripts": {
-    "build": "spago build --pedantic-packages",
+    "build": "spago build --pedantic-packages --strict",
     "test": "spago test --pedantic-packages",
-    "testbrowser": "./scripts/testbrowser"
+    "testbrowser": "./scripts/testbrowser",
+    "lint": "oxlint --deny-warnings src test",
+    "format": "purs-tidy format-in-place src test && oxfmt --write 'src/**/*.js' 'test/**/*.js'",
+    "format:check": "purs-tidy check src test && oxfmt --check 'src/**/*.js' 'test/**/*.js'"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
+    "oxfmt": "0.72.0",
+    "oxlint": "1.87.0",
+    "parcel": "2.16.4",
+    "purs-tidy": "0.11.1",
     "purescript": "0.15.16",
     "spago": "1.0.4"
   }

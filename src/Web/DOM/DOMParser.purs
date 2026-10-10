@@ -60,11 +60,11 @@ _getParserError doc = do
   peElems :: Array Element <- join $ map toArray $ getElementsByTagName "parsererror" doc
   peEleMay :: Maybe Element <- pure $ head $ peElems
   getText peEleMay
-    where
-      getText :: Maybe Element -> Effect (Maybe String)
-      getText elMay = case map toNode elMay of
-        Nothing -> pure $ Nothing
-        Just nd -> map Just $ textContent nd
+  where
+  getText :: Maybe Element -> Effect (Maybe String)
+  getText elMay = case map toNode elMay of
+    Nothing -> pure $ Nothing
+    Just nd -> map Just $ textContent nd
 
 -- | Like [Data.Either.note](https://pursuit.purescript.org/packages/purescript-either/docs/Data.Either#v:note),
 -- | but with the logic reversed. Used internally for converting the

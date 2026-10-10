@@ -6,7 +6,8 @@ export function makeDOMParser() {
 export function parseFromString(documentType) {
   return function (sourceString) {
     return function (domParser) {
-      return function () { // Effect thunk
+      return function () {
+        // Effect thunk
         return domParser.parseFromString(sourceString, documentType);
       };
     };

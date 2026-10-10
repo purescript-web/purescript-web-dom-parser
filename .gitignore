@@ -9,6 +9,7 @@
 /.psa*
 /.psa-stash
 /.cache
+/.parcel-cache/
 /.xdg_config_home
 
 /.spago/
