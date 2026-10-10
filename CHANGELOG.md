@@ -12,6 +12,16 @@ Bugfixes:
 
 Other improvements:
 
+## [v8.0.1](https://github.com/purescript-web/purescript-web-dom-parser/releases/tag/v8.0.1) - 2026-10-10
+
+Bugfixes:
+- Repair the missing `serializeToString` import in the existing tests and update their browser entry for ES modules (#18).
+
+Other improvements:
+- Migrate from Bower/psc-package/Pulp to Spago and the registry without changing published dependency bounds (#18).
+- Update CI and formatting tools, and upgrade the existing browser-test bundler to Parcel 2 (#18).
+- Correct documentation typos (#12).
+
 ## [v8.0.0](https://github.com/purescript-web/purescript-web-dom-parser/releases/tag/v8.0.0) - 2022-04-27
 
 Breaking changes:
